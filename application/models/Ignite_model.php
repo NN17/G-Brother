@@ -581,8 +581,9 @@ class Ignite_model extends CI_Model {
             OR bd.brandName LIKE '%$key%')
             AND sb.qty > 0
             AND wh.shop = true
-            AND ct.type = 'R'
+            AND ct.type = '$type'
             AND ps.active = true
+            GROUP BY ps.itemId
             ");
         return $query->result_array();
     }
