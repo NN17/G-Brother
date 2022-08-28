@@ -124,6 +124,15 @@ class Migrate extends CI_Model {
                 'description' => 'Outgoing Or Transfer Stocks ..'
               ),
               array(
+                'machine' => 'issue',
+                'name' => 'Issue',
+                'lang_name' => 'issue',
+                'icon_class' => 'share square',
+                'color' => 'red',
+                'sub_menu' => false,
+                'description' => 'Issue Stocks ..'
+              ),
+              array(
                 'machine' => 'reports/daily',
                 'name' => 'Reports',
                 'lang_name' => 'reports',
@@ -484,6 +493,10 @@ class Migrate extends CI_Model {
           'codeNumber' => array(
             'type' => 'VARCHAR',
             'constraint' => 64
+          ),
+          'countType' => array(
+            'type' => 'VARCHAR',
+            'constraint' => 355
           ),
           'brandId' => array(
             'type' => 'INT',
@@ -1038,6 +1051,40 @@ class Migrate extends CI_Model {
 
       $this->dbforge->add_key('paymentId', TRUE);
       $this->dbforge->create_table('payments_tbl', TRUE);
+
+      /* Create issue_tbl */
+      $this->dbforge->add_field(array(
+        'issueId' => array(
+          'type' => 'INT',
+          'constraint' => 8,
+          'auto_increment' => true 
+        ),
+        'itemId' => array(
+          'type' => 'INT',
+          'constraint' => 8
+        ),
+        'warehouseId' => array(
+          'type' => 'INT',
+          'constraint' => 8
+        ),
+        'issueDate' => array(
+          'type' => 'DATETIME'
+        ),
+        'qty' => array(
+          'type' => 'INT',
+          'constraint' => 8
+        ),
+        'remark' => array(
+          'type' => 'TEXT'
+        ),
+        'issueBy' => array(
+          'type' => 'INT',
+          'constraint' => 8
+        ),
+      ));
+
+      $this->dbforge->add_key('issueId', TRUE);
+      $this->dbforge->create_table('issue_tbl', TRUE);
         
         // ------------ End of Create Tables ---------------
     }

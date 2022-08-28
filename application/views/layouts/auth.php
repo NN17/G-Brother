@@ -36,7 +36,8 @@
 
     <style type="text/css">
         body {
-        background: url('./assets/imgs/backgrounds/back3.png');
+        background: url('./assets/imgs/backgrounds/back4.jpg');
+        background-size: cover;
         }
         body > .grid {
         height: 100%;
@@ -108,7 +109,7 @@
     <div class="ui middle aligned center aligned grid">
         <div class="column">
             <h2 class="ui red image header">
-            <img src="assets/imgs/swaltaw_logo.png" class="image ignite-logo"><br/>
+            <img src="assets/imgs/ignite-logo-circle-white.png" class="image ignite-logo"><br/>
             <div class="content">
                 Ignite Source POS System
             </div>

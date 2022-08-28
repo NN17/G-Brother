@@ -46,36 +46,10 @@
         <?=form_input('name',set_value('name'),'placeholder="'.$this->lang->line('item_name').'" pattern="[^\'\x22]+" required')?>  
     </div>
 
-
     <div class="field">
-    	<label><?=$this->lang->line('currency')?></label>
-    	<select name="currency" class="ui dropdown" required="required" readonly>
-    		<option value="">Select</option>
-    		<?php foreach($currencies as $currency): ?>
-    			<option value="<?=$currency['currencyId']?>" <?=$currency['default']?'selected':''?>><?=$currency['currency']?></option>
-    		<?php endforeach; ?>
-    	</select>
+    	<?=form_label($this->lang->line('item_count_type'))?>
+    	<?=form_input('countType','','placeholder="'.$this->lang->line('item_count_type').'" required')?>
     </div>
-
-    <!-- image upload -->
-    <div class="field">
-		<?=form_label('Select Image')?>
-		<div class="file-upload px-2 py-2 upload-demo">
-			<div class="uploadBtn">
-				<div class="fileUpload ui button teal">
-					<span class="fa fa-image"> Browse</span>
-					<?=form_upload('itemImage','','class="upload" onchange="readURL(this)" accept=".jpg,.png,.gif"')?>
-				</div>
-			</div>
-			<div class="preview">
-				<?php if(!empty($item['imgPath'])): ?>
-					<img src="<?=$item['imgPath']?>" id="previewImg" class="ui centered image rounded" />
-				<?php else: ?>
-					<img src="assets/imgs/preview.png" id="previewImg" class="ui centered image rounded" />
-				<?php endif; ?>
-			</div>
-		</div>
-	</div>
 
     <h4 class="ui blue dividing header">Other Information</h4>
 

@@ -49,7 +49,7 @@ class Ignite extends CI_Controller {
                     set_cookie ("loginId",""); 
                     set_cookie ("loginPass","");
                 }
-            redirect('home');
+            redirect('stock-balance');
             // echo 'true';
         }else{
             $this->load->view('layouts/auth');
@@ -58,12 +58,13 @@ class Ignite extends CI_Controller {
     }
     
     public function home(){
-        $this->breadcrumb->add('Home');
+        // $this->breadcrumb->add('Home');
 
-        $data['customers'] = $this->ignite_model->get_data('customers_tbl')->result();
-        $data['allLink'] = $this->ignite_model->get_data('link_structure_tbl')->result();
-        $data['content'] = 'pages/home';
-        $this->load->view('layouts/template', $data);
+        // $data['customers'] = $this->ignite_model->get_data('customers_tbl')->result();
+        // $data['allLink'] = $this->ignite_model->get_data('link_structure_tbl')->result();
+        // $data['content'] = 'pages/home';
+        // $this->load->view('layouts/template', $data);
+        redirect('stock-balance');
     }
 
     // Checkout
@@ -636,23 +637,16 @@ class Ignite extends CI_Controller {
         $category = $this->input->post('category');
         $name = $this->input->post('name');
         $code = $this->input->post('code');
-        $currency = $this->input->post('currency');
         $remark = $this->input->post('remark');
-
-        $upload = $this->ignite_model->upload_img('itemImage', 'assets/uploads', $code);
-        if($upload['status']){
-            $path = $upload['path'];
-        }
-            else{
-                $path = '';
-            }
+        $countType = $this->input->post('countType');
 
         $arr = array(
             'itemName' => $name,
             'categoryId' => $category,
             'codeNumber' => $code,
-            'currency' => $currency,
-            'imgPath' => $path,
+            'countType' => $countType,
+            'currency' => 0,
+            'imgPath' => '',
             'remark' => $remark,
             'referId' => 0,
             'active' => TRUE
@@ -661,12 +655,7 @@ class Ignite extends CI_Controller {
         $this->db->insert('items_price_tbl', $arr);
         $max = $this->ignite_model->max('items_price_tbl', 'itemId');
         $this->session->set_tempdata('success', 'New Item Successfully Created.', 5);
-        redirect('define-price/'. $max['itemId'] .'/'. $referer);
-        // if($referer === '~'){
-        //     redirect('items-price/0');
-        // }else{
-        //     redirect($referer);
-        // }
+        redirect('items-price/0');
         
     }
 
@@ -1027,7 +1016,7 @@ class Ignite extends CI_Controller {
         $vocId = $this->uri->segment(2);
 
         $this->breadcrumb->add('Home', 'home');
-        $this->breadcrumb->add('Stocks In', 'purchase');
+        $this->breadcrumb->add('Purchase', 'purchase');
         $this->breadcrumb->add('Detail');
 
         $data['purchaseItem'] = $this->ignite_model->get_purchaseItem($vocId);
@@ -1037,7 +1026,7 @@ class Ignite extends CI_Controller {
 
     public function newPurchase(){
         $this->breadcrumb->add('Home', 'home');
-        $this->breadcrumb->add('Stocks In', 'purchase/0');
+        $this->breadcrumb->add('Purchase', 'purchase');
         $this->breadcrumb->add('Create');
 
         $data['items'] = $this->ignite_model->get_allItems();
@@ -1084,7 +1073,7 @@ class Ignite extends CI_Controller {
 
         $this->session->set_tempdata('success', 'New Purchase Successfully Created.', 3);
 
-        redirect($_SERVER['HTTP_REFERER']);
+        redirect('purchase');
     }
 
     public function setAllPurchase() {
@@ -1237,7 +1226,7 @@ class Ignite extends CI_Controller {
     */
     public function transfer(){
         $this->breadcrumb->add('Home', 'home');
-        $this->breadcrumb->add('Stocks Out');
+        $this->breadcrumb->add('Transfer');
 
         $data['issues'] = $this->ignite_model->get_issuedItems();
 
@@ -1247,7 +1236,7 @@ class Ignite extends CI_Controller {
 
     public function newTransfer(){
         $this->breadcrumb->add('Home', 'home');
-        $this->breadcrumb->add('Stocks Out', 'transfer');
+        $this->breadcrumb->add('Transfer', 'transfer');
         $this->breadcrumb->add('Create');
 
         $data['items'] = $this->ignite_model->get_issueItems();
@@ -1265,7 +1254,7 @@ class Ignite extends CI_Controller {
         if(count($items) > 0){            
             foreach($items as $item){
                 echo '<option value="">Select</option>';
-                echo '<option value="'.$item['codeNumber'].'">'.$item['itemName'].' ( '.$item['categoryName'].' / '.$item['brandName'].' ) ~ '.number_format($item['purchasePrice']).' '.$item['currency'].'</option>';
+                echo '<option value="'.$item['codeNumber'].'">'.$item['itemName'].' ( '.$item['categoryName'].' ) </option>';
             }
         }
         else{
@@ -2062,7 +2051,6 @@ class Ignite extends CI_Controller {
         $referer = $this->input->post('referer');
         $vDate = $this->input->post('vDate');
         $vSerial = $this->input->post('vSerial');
-        $chargeAmt = $this->input->post('extCharge');
         $supplier = $this->input->post('supplier');
         $remark = $this->input->post('remark');
 
@@ -2071,7 +2059,7 @@ class Ignite extends CI_Controller {
             'vSerial' => $vSerial,
             'supplier' => $supplier,
             'extCharge' => 1,
-            'chargeAmt' => $chargeAmt,
+            'chargeAmt' => 0,
             'remark' => $remark,
             'created_at' => date('Y-m-d H:i:s A')
         );
@@ -2274,6 +2262,142 @@ class Ignite extends CI_Controller {
        $balance = $this->ignite_model->get_stock_items()->result();
        $warehouse = $this->ignite_model->get_limit_data('warehouse_tbl', 'activeState', true)->result();
        $this->excel->create($balance, $warehouse);
+    }
+
+    /*
+    * Issue Section
+    */
+    public function issue() {
+        $this->breadcrumb->add('Home', 'home');
+        $this->breadcrumb->add('Issue');
+
+        $data['issue'] = $this->ignite_model->get_issue_data();
+
+        $data['content'] = 'pages/issue';
+        $this->load->view('layouts/template', $data);
+    }
+
+    public function newIssue() {
+        $this->breadcrumb->add('Home', 'home');
+        $this->breadcrumb->add('Issue', 'issue');
+        $this->breadcrumb->add('Create Issue');
+
+        $data['items'] = $this->ignite_model->get_issueItems();
+        $data['warehouses'] = $this->ignite_model->get_data('warehouse_tbl')->result_array();
+
+        $data['content'] = 'pages/newIssue';
+        $this->load->view('layouts/template', $data);
+    }
+
+    public function doIssue() {
+        $source = $this->input->post('warehouseFrom');
+        $itemCode = $this->input->post('item');
+        $issueDate = $this->input->post('iDate');
+        $qty = $this->input->post('qty');
+        $remark = $this->input->post('remark');
+
+        $item = $this->ignite_model->get_limit_data('items_price_tbl', 'codeNumber', $itemCode)->row();
+
+        $arr = array(
+            'itemId' => $item->itemId,
+            'qty' => $qty,
+            'warehouseId' => $source,
+            'issueDate' => $issueDate,
+            'remark' => $remark,
+            'issueBy' => $this->session->userdata('Id')
+        );
+
+        $this->db->insert('issue_tbl', $arr);
+
+        // Balance adjust
+        $balance = $this->ignite_model->get_limit_datas('stocks_balance_tbl', ['itemId' => $item->itemId, 'warehouseId' => $source])->row();
+
+        $upd = array(
+            'qty' => ($balance->qty - $qty)
+        );
+
+        $this->db->where('itemId', $item->itemId);
+        $this->db->where('warehouseId', $source);
+        $this->db->update('stocks_balance_tbl', $upd);
+
+        $this->session->set_tempdata('success', 'Successfully process issue and balance has been adjusted !', 3);
+        redirect('issue');
+    }
+
+    public function editIssue() {
+        $issueId = $this->uri->segment(2);
+
+        $this->breadcrumb->add('Home', 'home');
+        $this->breadcrumb->add('Issue', 'issue');
+        $this->breadcrumb->add('Modify Issue');
+
+        $data['issue'] = $this->ignite_model->get_limit_data('issue_tbl', 'issueId', $issueId)->row();
+        $data['itemDetail'] = $this->ignite_model->get_limit_data('items_price_tbl', 'itemId', $data['issue']->itemId)->row();
+        $data['items'] = $this->ignite_model->get_issueItemsByWarehouse($data['issue']->warehouseId);
+        $data['warehouses'] = $this->ignite_model->get_data('warehouse_tbl')->result_array();
+
+        $data['content'] = 'pages/editIssue';
+        $this->load->view('layouts/template', $data);
+    }
+
+    public function updateIssue() {
+        $issueId = $this->uri->segment(3);
+
+        $issue = $this->ignite_model->get_limit_data('issue_tbl', 'issueId', $issueId)->row();
+
+        // Balance Restore
+        $balance = $this->ignite_model->get_limit_datas('stocks_balance_tbl', ['itemId' => $issue->itemId, 'warehouseId' => $issue->warehouseId])->row();
+
+        $this->db->where('balanceId', $balance->balanceId);
+        $this->db->update('stocks_balance_tbl', ['qty' => $balance->qty + $issue->qty]);
+
+        $source = $this->input->post('warehouseFrom');
+        $itemCode = $this->input->post('item');
+        $issueDate = $this->input->post('iDate');
+        $qty = $this->input->post('qty');
+        $remark = $this->input->post('remark');
+
+        $item = $this->ignite_model->get_limit_data('items_price_tbl', 'codeNumber', $itemCode)->row();
+
+        $upd = array(
+            'itemId' => $item->itemId,
+            'qty' => $qty,
+            'warehouseId' => $source,
+            'issueDate' => $issueDate,
+            'remark' => $remark,
+            'issueBy' => $this->session->userdata('Id')
+        );
+
+        $this->db->where('issueId', $issueId);
+        $this->db->update('issue_tbl', $upd);
+
+        // Balance Update
+
+        $newBalance = $this->ignite_model->get_limit_datas('stocks_balance_tbl', ['itemId' => $item->itemId, 'warehouseId' => $source])->row();
+
+        $this->db->where('balanceId', $newBalance->balanceId);
+        $this->db->update('stocks_balance_tbl', ['qty' => $newBalance->qty - $qty ]);
+
+        $this->session->set_tempdata('success', 'Successfully updated issue and balance has been adjusted !', 3);
+        redirect('issue');
+    }
+
+    public function deleteIssue() {
+        $issueId = $this->uri->segment(2);
+
+        // Balance Restore
+
+        $issue = $this->ignite_model->get_limit_data('issue_tbl', 'issueId', $issueId)->row();
+        $balance = $this->ignite_model->get_limit_datas('stocks_balance_tbl', ['itemId' => $issue->itemId, 'warehouseId' => $issue->warehouseId])->row();
+
+        $this->db->where('balanceId', $balance->balanceId);
+        $this->db->update('stocks_balance_tbl', ['qty' => $balance->qty + $issue->qty]);
+
+        $this->db->where('issueId', $issueId);
+        $this->db->delete('issue_tbl');
+
+        $this->session->set_tempdata('success', 'Successfully deleted issue and balance has been adjusted !', 3);
+        redirect('issue');
     }
 
     /*

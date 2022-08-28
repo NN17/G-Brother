@@ -88,6 +88,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	$lang['to'] = 'သို့';
 	$lang['create_invoice'] = 'ငွေတောင်းခံလွှာ ထုတ်ယူရန်';
 
+	// Language for Issue
+	$lang['issue'] = 'ပစ္စည်းထုတ်';
+	$lang['new_issue'] = 'ပစ္စည်းထုတ်ပေးရန်';
+	$lang['edit_issue'] = 'ပစ္စည်းထုတ်ပေးမှု ပြင်ဆင်ရန်';
+	$lang['issue_date'] = 'ထုတ်ပေးသည့်ရက်စွဲ';
+	$lang['issue_by'] = 'ထုတ်ပေးသူ';
+
 	// Language for Purchase
 	$lang['new_purchase'] = 'အဝယ်စာရင်းအသစ်ထည့်ရန်';
 	$lang['purchase_date'] = 'ဝယ်ယူသည့်နေ့စွဲ';
@@ -96,10 +103,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	$lang['total_pamt'] = 'စုစုပေါင်းကျသင့်ငွေ';
 	$lang['amount'] = 'ကျသင့်ငွေစုစုပေါင်း';
 
-	// Language for Sales
-	$lang['new_sale'] = 'ကုန်ပစ္စည်းထုတ်ပေးရန်';
-	$lang['sale_date'] = 'ထုတ်ပေးသည့်ရက်စွဲ';
-	$lang['edit_sale'] = 'ပစ္စည်းထုတ်ပေးမှု ပြင်ဆင်ရန်';
+	// Language for Transfer
+	$lang['new_transfer'] = 'ကုန်ပစ္စည်းလွှဲပြောင်းရန်';
+	$lang['transfer_date'] = 'လွှဲပြောင်းသည့်ရက်စွဲ';
+	$lang['edit_transfer'] = 'ပစ္စည်းလွှဲပြောင်းမှု ပြင်ဆင်ရန်';
 
 	// Language for Users
 	$lang['account_state'] = 'အကောင့်အခြေအနေ';

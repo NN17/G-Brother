@@ -4,16 +4,12 @@
 			<th class="ui right aligned">#</th>
 			<th><?=$this->lang->line('item_code')?></th>
 			<th><?=$this->lang->line('item_name')?></th>
-			<th><?=$this->lang->line('item_model')?></th>
-			<th><?=$this->lang->line('supplier_name')?></th>
-			<th class="ui right aligned"><?=$this->lang->line('purchase_price')?></th>
 			<!-- Loop for warehouse -->
 			<?php foreach($warehouse as $row): ?>
 				<th class="ui right aligned"><?=$row->warehouseName?></th>
 			<?php endforeach; ?>
 			<!-- End of warehouse loop -->
 			<th class="ui right aligned">Total</th>
-			<th class="ui right aligned">Amount</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -26,9 +22,6 @@
 				<td class="ui right aligned"><?=$i?></td>
 				<td><?=$item->codeNumber?></td>
 				<td><?=$item->itemName?></td>
-				<td><?=$item->itemModel?></td>
-				<td><?=$item->supplierName?></td>
-				<td class="ui right aligned"><?=number_format($item->price)?></td>
 				<!-- Loop for warehouse -->
 				<?php $totalQty = 0; ?>
 				<?php foreach($warehouse as $row): ?>
@@ -43,23 +36,11 @@
 				<?php endforeach; ?>
 				<!-- End of warehouse loop -->
 				<td class="ui right aligned <?=$totalQty<5?'negative':'positive'?>"><strong><?=$totalQty?></strong></td>
-				<td class="ui right aligned"><?=number_format($totalQty * $item->price)?></td>
-			</tr>
-			<?php
-				$total += $totalQty * $item->price; 
-				$i++; 
-			?>
-		<?php endforeach; ?>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td class="ui right aligned">Total Amount</td>
-			<td class="ui right aligned"><strong><?=number_format($total)?></strong></td>
-		</tr>
+			
+		<?php
+			$i ++; 
+			endforeach; 
+		?>
+		
 	</tbody>
 </table>

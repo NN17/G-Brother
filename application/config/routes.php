@@ -213,6 +213,14 @@ $route['modify-damage/(:num)'] = 'ignite/editDamage';
 $route['delete-damage/(:num)'] = 'ignite/deleteDamage';
 
 /*
+* Route for Issue
+*/
+$route['issue'] = 'ignite/issue';
+$route['create-issue'] = 'ignite/newIssue';
+$route['edit-issue/:num'] = 'ignite/editIssue';
+$route['delete-issue/:num'] = 'ignite/deleteIssue';
+
+/*
 * Routes for Logout
 */
 $route['logout'] = 'ignite/signOut';

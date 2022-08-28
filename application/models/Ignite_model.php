@@ -404,17 +404,7 @@ class Ignite_model extends CI_Model {
         $data = $this->db->query("SELECT * FROM items_price_tbl AS ip
                 LEFT JOIN categories_tbl AS cat
                 ON cat.categoryId = ip.categoryId
-                LEFT JOIN brands_tbl AS brand
-                ON brand.brandId = ip.brandId
-                LEFT JOIN currency_tbl AS currency
-                ON currency.currencyId = ip.currency
-                LEFT JOIN supplier_tbl AS supplier
-                ON supplier.supplierId = ip.supplierId
-                LEFT JOIN count_type_tbl AS ct
-                ON ct.related_item_id = ip.itemId
                 WHERE ip.active = TRUE
-                AND ct.type = 'P'
-                AND ip.purchased = false
                 ORDER BY ip.itemName ASC
         ");
         return $data->result_array();
@@ -449,13 +439,8 @@ class Ignite_model extends CI_Model {
         $data = $this->db->query("SELECT * FROM purchase_tbl AS purchase
             LEFT JOIN items_price_tbl AS item
             ON item.itemId = purchase.itemId
-            LEFT JOIN count_type_tbl AS ctype
-            ON item.itemId = ctype.related_item_id
             LEFT JOIN warehouse_tbl AS warehouse
             ON warehouse.warehouseId = purchase.warehouseId
-            LEFT JOIN brands_tbl AS brand
-            ON brand.brandId = item.brandId
-            WHERE ctype.type = 'P'
             AND purchase.voucherId = $vocId
             ORDER BY purchase.purchaseDate DESC, warehouse.serial ASC
             ");
@@ -536,10 +521,7 @@ class Ignite_model extends CI_Model {
         $query = $this->db->query("SELECT * FROM items_price_tbl AS ip
             LEFT JOIN supplier_tbl AS sp
             ON sp.supplierId = ip.supplierId
-            LEFT JOIN count_type_tbl AS ctype
-            ON ip.itemId = ctype.related_item_id
             WHERE ip.active = true
-            AND ctype.type = 'P'
             ORDER BY ip.codeNumber
             ");
 
@@ -1121,6 +1103,16 @@ class Ignite_model extends CI_Model {
         $data = $this->db->get('count_type_tbl');
 
         return $data;
+    }
+
+    function get_issue_data() {
+        $query = $this->db->query("SELECT * FROM issue_tbl AS issue
+            LEFT JOIN items_price_tbl AS ip
+            ON ip.itemId = issue.itemId
+            LEFT JOIN warehouse_tbl AS wh
+            ON wh.warehouseId = issue.warehouseId
+            ");
+        return $query->result();
     }
 
 }

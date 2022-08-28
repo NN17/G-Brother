@@ -1,23 +1,6 @@
-<?php 
-	$totalInvest = 0;
-	foreach($items as $item) {
-		$totalQty = 0;
-		foreach($warehouse as $row) {
-			$balance = $this->ignite_model->get_limit_datas('stocks_balance_tbl', ['itemId' => $item->itemId, 'warehouseId' => $row->warehouseId])->row();
-			if(isset($balance->qty)){
-				$totalQty += $balance->qty;
-			}
-		}
-		$totalInvest += $item->price * $totalQty;
-	}
-
- ?>
-
 <div class="ui clearing segment blue">
 	<h3 class="ui left floated blue header"><?=$this->lang->line('stocks')?></h3>
-	<div class="ui tag label blue left floated">
-		<strong class="red">Total Investment (MMK) : <?=number_format($totalInvest)?></strong>
-	</div>
+	
 	<a href="export-excel" class="ui right floated button olive">
 	    <i class="icon file excel outline"></i> Export Excel
 	</a>
@@ -39,34 +22,24 @@
 				<th class="ui right aligned">#</th>
 				<th><?=$this->lang->line('item_code')?></th>
 				<th><?=$this->lang->line('item_name')?></th>
-				<th class="text-center"><?=$this->lang->line('image')?></th>
-				<th class="ui right aligned"><?=$this->lang->line('sell_price')?></th>
-				<th class="ui right aligned"><?=$this->lang->line('wholesale_price')?></th>
-				<th class="ui right aligned"><?=$this->lang->line('purchase_price')?></th>
+				
 				<!-- Loop for warehouse -->
 				<?php foreach($warehouse as $row): ?>
 					<th class="ui right aligned"><?=$row->warehouseName?></th>
 				<?php endforeach; ?>
 				<!-- End of warehouse loop -->
 				<th class="ui right aligned">Total</th>
-				<th class="ui right aligned">Amount</th>
 			</tr>
 		</thead>
 		<tbody>
 			<?php $i=1; ?>
 			<?php 
 				foreach($items as $item): 
-					$retailPrice = $this->ignite_model->get_sellPrice($item->itemId, 'R')->row();
-					$wholeSalePrice = $this->ignite_model->get_sellPrice($item->itemId, 'W')->row();
 			?>
 				<tr>
 					<td class="ui right aligned"><?=$i?></td>
 					<td><?=$item->codeNumber?></td>
 					<td><?=$item->itemName?></td>
-					<td class="text-center"><button class="ui basic button tiny icon olive <?=!empty($item->imgPath)?'':'disabled'?>" onclick="viewImg('<?=$item->imgPath?>')"><i class="ui icon eye"></i></button></td>
-					<td class="ui right aligned"><?=number_format($retailPrice->price)?></td>
-					<td class="ui right aligned"><?=number_format($wholeSalePrice->price)?></td>
-					<td class="ui right aligned negative"><?=number_format($item->price)?></td>
 
 					<!-- Loop for warehouse -->
 					<?php $totalQty = 0; ?>
@@ -81,7 +54,6 @@
 					<?php endforeach; ?>
 					<!-- End of warehouse loop -->
 					<td class="ui right aligned <?=$totalQty<5?'negative':'positive'?>"><strong><?=$totalQty?></strong></td>
-					<td class="ui right aligned"><?=number_format($totalQty * $item->price)?></td>
 				</tr>
 				<?php $i++; ?>
 			<?php endforeach; ?>
@@ -97,25 +69,18 @@
 				<th class="ui right aligned">#</th>
 				<th><?=$this->lang->line('item_code')?></th>
 				<th><?=$this->lang->line('item_name')?></th>
-				<th class="text-center"><?=$this->lang->line('image')?></th>
-				<th class="ui right aligned"><?=$this->lang->line('sell_price')?></th>
-				<th class="ui right aligned"><?=$this->lang->line('wholesale_price')?></th>
-				<th class="ui right aligned"><?=$this->lang->line('purchase_price')?></th>
 				<!-- Loop for warehouse -->
 				<?php foreach($warehouse as $row): ?>
 					<th class="ui right aligned"><?=$row->warehouseName?></th>
 				<?php endforeach; ?>
 				<!-- End of warehouse loop -->
 				<th class="ui right aligned">Total</th>
-				<th class="ui right aligned">Amount</th>
 			</tr>
 		</thead>
 		<tbody>
 			<?php $i=1; ?>
 			<?php 
 				foreach($items as $item): 
-					$retailPrice = $this->ignite_model->get_sellPrice($item->itemId, 'R')->row();
-					$wholeSalePrice = $this->ignite_model->get_sellPrice($item->itemId, 'W')->row();
 					$checkQty = 0;
 					foreach($warehouse as $row){						
 						$balance = $this->ignite_model->get_limit_datas('stocks_balance_tbl', ['itemId' => $item->itemId, 'warehouseId' => $row->warehouseId])->row();
@@ -129,10 +94,6 @@
 					<td class="ui right aligned"><?=$i?></td>
 					<td><?=$item->codeNumber?></td>
 					<td><?=$item->itemName?></td>
-					<td class="text-center"><button class="ui basic button tiny icon olive <?=!empty($item->imgPath)?'':'disabled'?>" onclick="viewImg('<?=$item->imgPath?>')"><i class="ui icon eye"></i></button></td>
-					<td class="ui right aligned"><?=number_format($retailPrice->price)?></td>
-					<td class="ui right aligned"><?=number_format(@$wholeSalePrice->price)?></td>
-					<td class="ui right aligned negative"><?=number_format($item->price)?></td>
 
 					<!-- Loop for warehouse -->
 					<?php $totalQty = 0; ?>
@@ -147,7 +108,6 @@
 					<?php endforeach; ?>
 					<!-- End of warehouse loop -->
 					<td class="ui right aligned <?=$totalQty<5?'negative':'positive'?>"><strong><?=$totalQty?></strong></td>
-					<td class="ui right aligned"><?=number_format($totalQty * $item->price)?></td>
 				</tr>
 				<?php endif; ?>
 				<?php $i++; ?>
@@ -164,17 +124,13 @@
 				<th class="ui right aligned">#</th>
 				<th><?=$this->lang->line('item_code')?></th>
 				<th><?=$this->lang->line('item_name')?></th>
-				<th class="text-center"><?=$this->lang->line('image')?></th>
-				<th class="ui right aligned"><?=$this->lang->line('sell_price')?></th>
-				<th class="ui right aligned"><?=$this->lang->line('wholesale_price')?></th>
-				<th class="ui right aligned"><?=$this->lang->line('purchase_price')?></th>
+				
 				<!-- Loop for warehouse -->
 				<?php foreach($warehouse as $row): ?>
 					<th class="ui right aligned"><?=$row->warehouseName?></th>
 				<?php endforeach; ?>
 				<!-- End of warehouse loop -->
 				<th class="ui right aligned">Total</th>
-				<th class="ui right aligned">Amount</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -196,10 +152,7 @@
 					<td class="ui right aligned"><?=$i?></td>
 					<td><?=$item->codeNumber?></td>
 					<td><?=$item->itemName?></td>
-					<td class="text-center"><button class="ui basic button tiny icon olive <?=!empty($item->imgPath)?'':'disabled'?>" onclick="viewImg('<?=$item->imgPath?>')"><i class="ui icon eye"></i></button></td>
-					<td class="ui right aligned"><?=number_format($retailPrice->price)?></td>
-					<td class="ui right aligned"><?=number_format($wholeSalePrice->price)?></td>
-					<td class="ui right aligned negative"><?=number_format($item->price)?></td>
+					
 
 					<!-- Loop for warehouse -->
 					<?php $totalQty = 0; ?>
@@ -214,7 +167,6 @@
 					<?php endforeach; ?>
 					<!-- End of warehouse loop -->
 					<td class="ui right aligned <?=$totalQty<5?'negative':'positive'?>"><strong><?=$totalQty?></strong></td>
-					<td class="ui right aligned"><?=number_format($totalQty * $item->price)?></td>
 				</tr>
 				<?php endif; ?>
 				<?php $i++; ?>

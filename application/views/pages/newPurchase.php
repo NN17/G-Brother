@@ -12,7 +12,7 @@
 				<select name="item" class="ui search dropdown" id="item" required>
 					<option value="">Select</option>
 					<?php foreach($items as $item):?>
-					<option value="<?=$item['itemId']?>"><?=$item['itemName']?> - <?=$item['codeNumber']?> ( <?=$item['categoryName'].' / '.$item['brandName']?> ) <?=$item['price']?></option>
+					<option value="<?=$item['itemId']?>"><?=$item['itemName']?> - <?=$item['codeNumber']?> </option>
 					<?php endforeach; ?>
 				</select>
 			</div>
@@ -76,7 +76,7 @@
     </div>
     <div class="field">
         <?=form_submit('save',$this->lang->line('save'),'class="ui button blue"')?>
-        <?=anchor('purchase/0',$this->lang->line('cancel'),'class="ui button"')?>
+        <?=anchor('purchase',$this->lang->line('cancel'),'class="ui button"')?>
     </div>
 	<?=form_close()?>
 	</div>

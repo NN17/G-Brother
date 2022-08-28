@@ -29,7 +29,7 @@
 <body>
    
    <div class="header">
-       <h3 class="text-center">Swal Taw Store ( <?=$name?> )</h3>
+       <h3 class="text-center">ရွှေညီကို စတိုး ( <?=$name?> )</h3>
        <div class="ui right aligned"><?=date('d / M / Y h:i:s A')?></div>
    </div>
 

@@ -13,10 +13,10 @@
 	    	<label><?=$this->lang->line('voucher_serial')?></label>
 	    	<?=form_input('vSerial','','placeholder="'.$this->lang->line('voucher_serial').'" required')?>
 	    </div>
-	    <div class="field">
+	    <!-- <div class="field">
 	    	<label><?=$this->lang->line('extra_charges')?></label>
 	    	<?=form_number('extCharge', '', 'placeholder="'.$this->lang->line('extra_charges').' Amount (10,000)" required')?>
-	    </div>
+	    </div> -->
 	    <div class="field">
 	    	<label><?=$this->lang->line('supplier')?></label>
 	    	<select name="supplier" class="ui search dropdown" required>

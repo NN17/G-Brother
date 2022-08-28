@@ -88,6 +88,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	$lang['to'] = 'To';
 	$lang['create_invoice'] = 'Create Invoice';
 
+	// Language for Issue
+	$lang['issue'] = 'Issue';
+	$lang['new_issue'] = 'New Issue';
+	$lang['edit_issue'] = 'Modify Issue';
+	$lang['issue_date'] = 'Issue Date';
+	$lang['issue_by'] = 'Issue By';
+	
+
 	// Language for Purchase
 	$lang['new_purchase'] = 'New Purchase';
 	$lang['purchase_date'] = 'Purchase Date';
@@ -97,9 +105,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	$lang['amount'] = 'Amount';
 
 	// Language for Sales
-	$lang['new_sale'] = 'New Stocks Issue';
-	$lang['sale_date'] = 'Issue Date';
-	$lang['edit_sale'] = 'Edit Stock Issue';
+	$lang['new_transfer'] = 'New Stocks Transfer';
+	$lang['transfer_date'] = 'Issue Date';
+	$lang['edit_transfer'] = 'Edit Stock Transfer';
 
 	// Language for Users
 	$lang['account_state'] = 'Account State';

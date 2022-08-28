@@ -12,10 +12,7 @@
 			<th><?=$this->lang->line('purchase_date')?></th>
 			<th><?=$this->lang->line('item_code')?></th>
 			<th><?=$this->lang->line('item_name')?></th>
-			<th><?=$this->lang->line('item_model')?></th>
-			<th class="ui right aligned"><?=$this->lang->line('purchase_price')?></th>
 			<th class="ui right aligned"><?=$this->lang->line('quantity')?></th>
-			<th class="ui right aligned"><?=$this->lang->line('amount')?></th>
 			<th><?=$this->lang->line('warehouse')?></th>
 			<th><?=$this->lang->line('status')?></th>
 			<th></th>
@@ -26,17 +23,13 @@
 			$i = 1;
 			$total = 0;
 			foreach($purchaseItem as $item):
-				$total += $item['price'] * $item['quantity'];
 		?>
 		<tr>
 			<td><?=$i?></td>
 			<td><?=$item['purchaseDate']?></td>
 			<td><?=$item['codeNumber']?></td>
 			<td><?=$item['itemName']?> <?=!empty($item['brnadName'])?' ( '.$item['brandName'].' )':''?></td>
-			<td><?=$item['itemModel']?></td>
-			<td class="ui right aligned"><?=number_format($item['price'])?></td>
 			<td class="ui right aligned"><?=number_format($item['quantity'])?></td>
-			<td class="ui right aligned"><strong><?=number_format($item['price'] * $item['quantity'])?></strong></td>
 			<td><?=$item['warehouseName']?></td>
 			<td>
 				<?php if($this->ignite_model->check_purchase($item['purchaseId']) == false): ?>
@@ -54,10 +47,6 @@
 			$i ++;
 			endforeach;
 		?>
-		<tr>
-			<td colspan="7" class="ui right aligned">Total Amount</td>
-			<td class="ui right aligned"><strong><?=number_format($total)?></strong></td>
-			<td colspan="2"></td>
-		</tr>
+		
 	</tbody>
 </table>

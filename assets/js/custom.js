@@ -1,6 +1,10 @@
+// function base_url() {
+// 	return "http://" + location.hostname + "/G-Brother/";
+// }	
+
 function base_url() {
-	return "http://" + location.hostname + "/POSv2/";
-}	
+	return "https://" + location.hostname;
+}
 
 // setInterval(() => {
 //     isOnline();
