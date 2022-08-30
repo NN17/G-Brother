@@ -6,6 +6,11 @@ class Migrate extends CI_Model {
 
        $this->load->dbforge();
 
+       $attribute = array(
+          'ENGINE' => 'InnoDB',
+          'COLLATION' => 'utf8_unicode_ci'
+       );
+
        $this->dbforge->add_field(array(
            'accId' => array(
                'type' => 'INT',
@@ -290,11 +295,9 @@ class Migrate extends CI_Model {
            ),
            'link' => array(
               'type' => 'JSON',
-              'collation' => 'utf8mb4_bin'
            ),
            'modify' => array(
               'type' => 'JSON',
-              'collation' => 'utf8mb4_bin'
            ),
            'created_at' => array(
               'type' => 'DATETIME'
@@ -305,7 +308,7 @@ class Migrate extends CI_Model {
         ));
 
         $this->dbforge->add_key('permissionId', TRUE);
-        $this->dbforge->create_table('permission_tbl', TRUE);
+        $this->dbforge->create_table('permission_tbl', TRUE, $attribute);
 
         // End of permission_tbl
 
