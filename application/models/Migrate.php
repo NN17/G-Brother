@@ -294,10 +294,10 @@ class Migrate extends CI_Model {
               'constraint' => 8
            ),
            'link' => array(
-              'type' => 'JSON',
+              'type' => 'LONGTEXT',
            ),
            'modify' => array(
-              'type' => 'JSON',
+              'type' => 'LONGTEXT',
            ),
            'created_at' => array(
               'type' => 'DATETIME'
