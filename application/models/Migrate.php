@@ -8,7 +8,7 @@ class Migrate extends CI_Model {
 
        $attribute = array(
           'ENGINE' => 'InnoDB',
-          'COLLATION' => 'utf8_unicode_ci'
+          'COLLATE' => 'utf8_unicode_ci'
        );
 
        $this->dbforge->add_field(array(
