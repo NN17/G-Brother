@@ -290,9 +290,11 @@ class Migrate extends CI_Model {
            ),
            'link' => array(
               'type' => 'JSON',
+              'collation' => 'utf8mb4_bin'
            ),
            'modify' => array(
               'type' => 'JSON',
+              'collation' => 'utf8mb4_bin'
            ),
            'created_at' => array(
               'type' => 'DATETIME'
